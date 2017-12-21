@@ -55,11 +55,11 @@ RUN yum -y update && \
 #COPY cache.key $ISC_PACKAGE_INSTALLDIR/mgr/
 # Workaround for an overlayfs bug which prevents Cache from starting with <PROTECT> errors
 #COPY cache.cpf /InterSystems/cache/
-COPY ccontrol-wrapper.sh /usr/bin/
-RUN cd /usr/bin                     && \
-    rm ccontrol                     && \
-    mv ccontrol-wrapper.sh ccontrol && \
-    chmod 555 ccontrol
+#COPY ccontrol-wrapper.sh /usr/bin/
+#RUN cd /usr/bin                     && \
+#    rm ccontrol                     && \
+#    mv ccontrol-wrapper.sh ccontrol && \
+#    chmod 555 ccontrol
 
 # TCP sockets that can be accessed if user wants to (see 'docker run -p' flag)
 EXPOSE 57772 1972 22
