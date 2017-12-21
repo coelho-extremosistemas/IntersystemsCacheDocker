@@ -60,8 +60,8 @@ EXPOSE 57772 1972 22
 # Caché container main process PID 1 (https://github.com/zrml/ccontainermain)
 WORKDIR /
 ADD ccontainermain .
-ENTRYPOINT  ["/ccontainermain"]
-
+#ENTRYPOINT  ["/ccontainermain"]
+CMD ccontrol start cache
 # run via:
 # docker run -d -name cache -p 57773:57772 -p 2222:22 -p 85:80 -e ROOT_PASS="linux" cache:2017.1 -i=CACHE -xstart=/run.sh 
 #
