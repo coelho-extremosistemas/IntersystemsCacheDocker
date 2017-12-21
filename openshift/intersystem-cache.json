@@ -1,0 +1,787 @@
+{
+    "kind": "Template",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "Intersystems Cache",
+        "creationTimestamp": null
+    },
+    "objects": [
+        {
+            "kind": "BuildConfig",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "intersystemscachedocker",
+                "creationTimestamp": null,
+                "labels": {
+                    "build": "intersystemscachedocker"
+                },
+                "annotations": {
+                    "openshift.io/generated-by": "OpenShiftNewBuild"
+                }
+            },
+            "spec": {
+                "triggers": [
+                    {
+                        "type": "GitHub",
+                        "github": {
+                            "secret": "7FEthp6KOUYkIGNixcNQ"
+                        }
+                    },
+                    {
+                        "type": "Generic",
+                        "generic": {
+                            "secret": "C_EsTUS7uljbgoqMXSEN"
+                        }
+                    },
+                    {
+                        "type": "ConfigChange"
+                    },
+                    {
+                        "type": "ImageChange",
+                        "imageChange": {}
+                    }
+                ],
+                "runPolicy": "Serial",
+                "source": {
+                    "type": "Git",
+                    "git": {
+                        "uri": "https://github.com/coelho-extremosistemas/IntersystemsCacheDocker"
+                    }
+                },
+                "strategy": {
+                    "type": "Docker",
+                    "dockerStrategy": {
+                        "from": {
+                            "kind": "ImageStreamTag",
+                            "name": "centos:latest"
+                        }
+                    }
+                },
+                "output": {
+                    "to": {
+                        "kind": "ImageStreamTag",
+                        "name": "intersystemscachedocker:latest"
+                    }
+                },
+                "resources": {},
+                "postCommit": {},
+                "nodeSelector": null
+            },
+            "status": {
+                "lastVersion": 0
+            }
+        },
+        {
+            "kind": "Build",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "intersystemscachedocker-1",
+                "creationTimestamp": null,
+                "labels": {
+                    "build": "intersystemscachedocker",
+                    "buildconfig": "intersystemscachedocker",
+                    "openshift.io/build-config.name": "intersystemscachedocker",
+                    "openshift.io/build.start-policy": "Serial"
+                },
+                "annotations": {
+                    "openshift.io/build-config.name": "intersystemscachedocker",
+                    "openshift.io/build.number": "1",
+                    "openshift.io/build.pod-name": "intersystemscachedocker-1-build"
+                }
+            },
+            "spec": {
+                "serviceAccount": "builder",
+                "source": {
+                    "type": "Git",
+                    "git": {
+                        "uri": "https://github.com/coelho-extremosistemas/IntersystemsCacheDocker"
+                    }
+                },
+                "revision": {
+                    "type": "Git",
+                    "git": {
+                        "commit": "f8dd7ffc090101e5c2b42610bba86a25a3180155",
+                        "author": {
+                            "name": "Marcio Jota Coelho",
+                            "email": "coelho@extremosistemas.com.br"
+                        },
+                        "committer": {
+                            "name": "Marcio Jota Coelho",
+                            "email": "coelho@extremosistemas.com.br"
+                        },
+                        "message": "Alterado confs"
+                    }
+                },
+                "strategy": {
+                    "type": "Docker",
+                    "dockerStrategy": {
+                        "from": {
+                            "kind": "DockerImage",
+                            "name": "tutum/centos@sha256:b4de18abfef698f6ae3a4921d6f58edef8fc770c6ee5da7636fa4ea51ab545c5"
+                        }
+                    }
+                },
+                "output": {
+                    "to": {
+                        "kind": "ImageStreamTag",
+                        "name": "intersystemscachedocker:latest"
+                    },
+                    "pushSecret": {
+                        "name": "builder-dockercfg-xzsnh"
+                    }
+                },
+                "resources": {},
+                "postCommit": {},
+                "nodeSelector": null,
+                "triggeredBy": [
+                    {
+                        "message": "Image change",
+                        "imageChangeBuild": {
+                            "imageID": "tutum/centos@sha256:b4de18abfef698f6ae3a4921d6f58edef8fc770c6ee5da7636fa4ea51ab545c5",
+                            "fromRef": {
+                                "kind": "ImageStreamTag",
+                                "name": "centos:latest"
+                            }
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "phase": "New",
+                "outputDockerImageReference": "172.30.1.1:5000/consistem/intersystemscachedocker:latest",
+                "config": {
+                    "name": "intersystemscachedocker"
+                },
+                "output": {
+                    "to": {
+                        "imageDigest": "sha256:ba43bdcbe38e451ddf39f44df3f544b5c361dcba46ba801849ace7aa385c1afc"
+                    }
+                }
+            }
+        },
+        {
+            "kind": "ImageStream",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "centos",
+                "generation": 2,
+                "creationTimestamp": null,
+                "labels": {
+                    "build": "intersystemscachedocker"
+                },
+                "annotations": {
+                    "openshift.io/generated-by": "OpenShiftNewBuild",
+                    "openshift.io/image.dockerRepositoryCheck": "2017-12-21T16:32:14Z"
+                }
+            },
+            "spec": {
+                "tags": [
+                    {
+                        "name": "latest",
+                        "annotations": {
+                            "openshift.io/imported-from": "tutum/centos:latest"
+                        },
+                        "from": {
+                            "kind": "DockerImage",
+                            "name": "172.30.1.1:5000/consistem/centos:latest"
+                        },
+                        "generation": 2,
+                        "importPolicy": {},
+                        "referencePolicy": {
+                            "type": "Source"
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "dockerImageRepository": ""
+            }
+        },
+        {
+            "kind": "ImageStream",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "intersystemscachedocker",
+                "generation": 1,
+                "creationTimestamp": null,
+                "labels": {
+                    "build": "intersystemscachedocker"
+                },
+                "annotations": {
+                    "openshift.io/generated-by": "OpenShiftNewBuild"
+                }
+            },
+            "spec": {
+                "tags": [
+                    {
+                        "name": "latest",
+                        "annotations": null,
+                        "from": {
+                            "kind": "DockerImage",
+                            "name": "172.30.1.1:5000/consistem/intersystemscachedocker:latest"
+                        },
+                        "generation": null,
+                        "importPolicy": {},
+                        "referencePolicy": {
+                            "type": ""
+                        }
+                    }
+                ]
+            },
+            "status": {
+                "dockerImageRepository": ""
+            }
+        },
+        {
+            "kind": "DeploymentConfig",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "intersystems-cache",
+                "generation": 1,
+                "creationTimestamp": null,
+                "labels": {
+                    "app": "intersystems-cache"
+                },
+                "annotations": {
+                    "openshift.io/generated-by": "OpenShiftWebConsole"
+                }
+            },
+            "spec": {
+                "strategy": {
+                    "type": "Rolling",
+                    "rollingParams": {
+                        "updatePeriodSeconds": 1,
+                        "intervalSeconds": 1,
+                        "timeoutSeconds": 600,
+                        "maxUnavailable": "25%",
+                        "maxSurge": "25%"
+                    },
+                    "resources": {},
+                    "activeDeadlineSeconds": 21600
+                },
+                "triggers": [
+                    {
+                        "type": "ConfigChange"
+                    },
+                    {
+                        "type": "ImageChange",
+                        "imageChangeParams": {
+                            "automatic": true,
+                            "containerNames": [
+                                "intersystems-cache"
+                            ],
+                            "from": {
+                                "kind": "ImageStreamTag",
+                                "namespace": "consistem",
+                                "name": "intersystemscachedocker:latest"
+                            }
+                        }
+                    }
+                ],
+                "replicas": 1,
+                "test": false,
+                "selector": {
+                    "app": "intersystems-cache",
+                    "deploymentconfig": "intersystems-cache"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "app": "intersystems-cache",
+                            "deploymentconfig": "intersystems-cache"
+                        },
+                        "annotations": {
+                            "openshift.io/generated-by": "OpenShiftWebConsole"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "name": "intersystems-cache",
+                                "image": "172.30.1.1:5000/consistem/intersystemscachedocker@sha256:ba43bdcbe38e451ddf39f44df3f544b5c361dcba46ba801849ace7aa385c1afc",
+                                "ports": [
+                                    {
+                                        "containerPort": 22,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 1972,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 57772,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {},
+                                "terminationMessagePath": "/dev/termination-log",
+                                "imagePullPolicy": "Always"
+                            }
+                        ],
+                        "restartPolicy": "Always",
+                        "terminationGracePeriodSeconds": 30,
+                        "dnsPolicy": "ClusterFirst",
+                        "securityContext": {}
+                    }
+                }
+            },
+            "status": {
+                "latestVersion": 0,
+                "observedGeneration": 0,
+                "replicas": 0,
+                "updatedReplicas": 0,
+                "availableReplicas": 0,
+                "unavailableReplicas": 0
+            }
+        },
+        {
+            "kind": "ReplicationController",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "intersystems-cache-1",
+                "generation": 1,
+                "creationTimestamp": null,
+                "labels": {
+                    "app": "intersystems-cache",
+                    "openshift.io/deployment-config.name": "intersystems-cache"
+                },
+                "annotations": {
+                    "openshift.io/deployer-pod.name": "intersystems-cache-1-deploy",
+                    "openshift.io/deployment-config.latest-version": "1",
+                    "openshift.io/deployment-config.name": "intersystems-cache",
+                    "openshift.io/deployment.phase": "Complete",
+                    "openshift.io/deployment.replicas": "1",
+                    "openshift.io/deployment.status-reason": "image change",
+                    "openshift.io/encoded-deployment-config": "{\"kind\":\"DeploymentConfig\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"intersystems-cache\",\"namespace\":\"consistem\",\"selfLink\":\"/oapi/v1/namespaces/consistem/deploymentconfigs/intersystems-cache\",\"uid\":\"380ede83-e66d-11e7-9f71-ba76578662e3\",\"resourceVersion\":\"11899\",\"generation\":2,\"creationTimestamp\":\"2017-12-21T16:37:22Z\",\"labels\":{\"app\":\"intersystems-cache\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftWebConsole\"}},\"spec\":{\"strategy\":{\"type\":\"Rolling\",\"rollingParams\":{\"updatePeriodSeconds\":1,\"intervalSeconds\":1,\"timeoutSeconds\":600,\"maxUnavailable\":\"25%\",\"maxSurge\":\"25%\"},\"resources\":{},\"activeDeadlineSeconds\":21600},\"triggers\":[{\"type\":\"ConfigChange\"},{\"type\":\"ImageChange\",\"imageChangeParams\":{\"automatic\":true,\"containerNames\":[\"intersystems-cache\"],\"from\":{\"kind\":\"ImageStreamTag\",\"namespace\":\"consistem\",\"name\":\"intersystemscachedocker:latest\"},\"lastTriggeredImage\":\"172.30.1.1:5000/consistem/intersystemscachedocker@sha256:ba43bdcbe38e451ddf39f44df3f544b5c361dcba46ba801849ace7aa385c1afc\"}}],\"replicas\":1,\"test\":false,\"selector\":{\"app\":\"intersystems-cache\",\"deploymentconfig\":\"intersystems-cache\"},\"template\":{\"metadata\":{\"creationTimestamp\":null,\"labels\":{\"app\":\"intersystems-cache\",\"deploymentconfig\":\"intersystems-cache\"},\"annotations\":{\"openshift.io/generated-by\":\"OpenShiftWebConsole\"}},\"spec\":{\"containers\":[{\"name\":\"intersystems-cache\",\"image\":\"172.30.1.1:5000/consistem/intersystemscachedocker@sha256:ba43bdcbe38e451ddf39f44df3f544b5c361dcba46ba801849ace7aa385c1afc\",\"ports\":[{\"containerPort\":22,\"protocol\":\"TCP\"},{\"containerPort\":1972,\"protocol\":\"TCP\"},{\"containerPort\":57772,\"protocol\":\"TCP\"}],\"resources\":{},\"terminationMessagePath\":\"/dev/termination-log\",\"imagePullPolicy\":\"Always\"}],\"restartPolicy\":\"Always\",\"terminationGracePeriodSeconds\":30,\"dnsPolicy\":\"ClusterFirst\",\"securityContext\":{}}}},\"status\":{\"latestVersion\":1,\"observedGeneration\":1,\"replicas\":0,\"updatedReplicas\":0,\"availableReplicas\":0,\"unavailableReplicas\":0,\"details\":{\"message\":\"image change\",\"causes\":[{\"type\":\"ImageChange\",\"imageTrigger\":{\"from\":{\"kind\":\"ImageStreamTag\",\"namespace\":\"consistem\",\"name\":\"intersystemscachedocker:latest\"}}}]},\"conditions\":[{\"type\":\"Available\",\"status\":\"False\",\"lastUpdateTime\":\"2017-12-21T16:37:22Z\",\"lastTransitionTime\":\"2017-12-21T16:37:22Z\",\"message\":\"Deployment config does not have minimum availability.\"}]}}\n"
+                }
+            },
+            "spec": {
+                "replicas": 1,
+                "selector": {
+                    "app": "intersystems-cache",
+                    "deployment": "intersystems-cache-1",
+                    "deploymentconfig": "intersystems-cache"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "app": "intersystems-cache",
+                            "deployment": "intersystems-cache-1",
+                            "deploymentconfig": "intersystems-cache"
+                        },
+                        "annotations": {
+                            "openshift.io/deployment-config.latest-version": "1",
+                            "openshift.io/deployment-config.name": "intersystems-cache",
+                            "openshift.io/deployment.name": "intersystems-cache-1",
+                            "openshift.io/generated-by": "OpenShiftWebConsole"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "name": "intersystems-cache",
+                                "image": "172.30.1.1:5000/consistem/intersystemscachedocker@sha256:ba43bdcbe38e451ddf39f44df3f544b5c361dcba46ba801849ace7aa385c1afc",
+                                "ports": [
+                                    {
+                                        "containerPort": 22,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 1972,
+                                        "protocol": "TCP"
+                                    },
+                                    {
+                                        "containerPort": 57772,
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {},
+                                "terminationMessagePath": "/dev/termination-log",
+                                "imagePullPolicy": "Always"
+                            }
+                        ],
+                        "restartPolicy": "Always",
+                        "terminationGracePeriodSeconds": 30,
+                        "dnsPolicy": "ClusterFirst",
+                        "securityContext": {}
+                    }
+                }
+            },
+            "status": {
+                "replicas": 0
+            }
+        },
+        {
+            "kind": "Route",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "cache",
+                "creationTimestamp": null,
+                "labels": {
+                    "app": "intersystems-cache"
+                },
+                "annotations": {
+                    "openshift.io/host.generated": "true"
+                }
+            },
+            "spec": {
+                "host": "cache-consistem.192.168.42.170.nip.io",
+                "to": {
+                    "kind": "Service",
+                    "name": "intersystems-cache",
+                    "weight": 100
+                },
+                "port": {
+                    "targetPort": 1972
+                },
+                "wildcardPolicy": "None"
+            },
+            "status": {
+                "ingress": [
+                    {
+                        "host": "cache-consistem.192.168.42.170.nip.io",
+                        "routerName": "router",
+                        "conditions": [
+                            {
+                                "type": "Admitted",
+                                "status": "True",
+                                "lastTransitionTime": "2017-12-21T17:32:51Z"
+                            }
+                        ],
+                        "wildcardPolicy": "None"
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "Route",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "portal",
+                "creationTimestamp": null,
+                "labels": {
+                    "app": "intersystems-cache"
+                },
+                "annotations": {
+                    "openshift.io/host.generated": "true"
+                }
+            },
+            "spec": {
+                "host": "portal-consistem.192.168.42.170.nip.io",
+                "to": {
+                    "kind": "Service",
+                    "name": "intersystems-cache",
+                    "weight": 100
+                },
+                "port": {
+                    "targetPort": 57772
+                },
+                "wildcardPolicy": "None"
+            },
+            "status": {
+                "ingress": [
+                    {
+                        "host": "portal-consistem.192.168.42.170.nip.io",
+                        "routerName": "router",
+                        "conditions": [
+                            {
+                                "type": "Admitted",
+                                "status": "True",
+                                "lastTransitionTime": "2017-12-21T17:33:04Z"
+                            }
+                        ],
+                        "wildcardPolicy": "None"
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "Route",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "ssh",
+                "creationTimestamp": null,
+                "labels": {
+                    "app": "intersystems-cache"
+                },
+                "annotations": {
+                    "openshift.io/host.generated": "true"
+                }
+            },
+            "spec": {
+                "host": "ssh-consistem.192.168.42.170.nip.io",
+                "to": {
+                    "kind": "Service",
+                    "name": "intersystems-cache",
+                    "weight": 100
+                },
+                "port": {
+                    "targetPort": 22
+                },
+                "wildcardPolicy": "None"
+            },
+            "status": {
+                "ingress": [
+                    {
+                        "host": "ssh-consistem.192.168.42.170.nip.io",
+                        "routerName": "router",
+                        "conditions": [
+                            {
+                                "type": "Admitted",
+                                "status": "True",
+                                "lastTransitionTime": "2017-12-21T17:32:58Z"
+                            }
+                        ],
+                        "wildcardPolicy": "None"
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "Service",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "intersystems-cache",
+                "creationTimestamp": null,
+                "labels": {
+                    "app": "intersystems-cache"
+                },
+                "annotations": {
+                    "openshift.io/generated-by": "OpenShiftWebConsole"
+                }
+            },
+            "spec": {
+                "ports": [
+                    {
+                        "name": "22-tcp",
+                        "protocol": "TCP",
+                        "port": 22,
+                        "targetPort": 22
+                    },
+                    {
+                        "name": "1972-tcp",
+                        "protocol": "TCP",
+                        "port": 1972,
+                        "targetPort": 1972
+                    },
+                    {
+                        "name": "57772-tcp",
+                        "protocol": "TCP",
+                        "port": 57772,
+                        "targetPort": 57772
+                    }
+                ],
+                "selector": {
+                    "deploymentconfig": "intersystems-cache"
+                },
+                "type": "ClusterIP",
+                "sessionAffinity": "None"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "kind": "Pod",
+            "apiVersion": "v1",
+            "metadata": {
+                "generateName": "intersystems-cache-1-",
+                "creationTimestamp": null,
+                "labels": {
+                    "app": "intersystems-cache",
+                    "deployment": "intersystems-cache-1",
+                    "deploymentconfig": "intersystems-cache"
+                },
+                "annotations": {
+                    "kubernetes.io/created-by": "{\"kind\":\"SerializedReference\",\"apiVersion\":\"v1\",\"reference\":{\"kind\":\"ReplicationController\",\"namespace\":\"consistem\",\"name\":\"intersystems-cache-1\",\"uid\":\"3812a9dc-e66d-11e7-9f71-ba76578662e3\",\"apiVersion\":\"v1\",\"resourceVersion\":\"11914\"}}\n",
+                    "openshift.io/deployment-config.latest-version": "1",
+                    "openshift.io/deployment-config.name": "intersystems-cache",
+                    "openshift.io/deployment.name": "intersystems-cache-1",
+                    "openshift.io/generated-by": "OpenShiftWebConsole",
+                    "openshift.io/scc": "anyuid"
+                }
+            },
+            "spec": {
+                "volumes": [
+                    {
+                        "name": "default-token-z65vz",
+                        "secret": {
+                            "secretName": "default-token-z65vz",
+                            "defaultMode": 420
+                        }
+                    }
+                ],
+                "containers": [
+                    {
+                        "name": "intersystems-cache",
+                        "image": "172.30.1.1:5000/consistem/intersystemscachedocker@sha256:ba43bdcbe38e451ddf39f44df3f544b5c361dcba46ba801849ace7aa385c1afc",
+                        "ports": [
+                            {
+                                "containerPort": 22,
+                                "protocol": "TCP"
+                            },
+                            {
+                                "containerPort": 1972,
+                                "protocol": "TCP"
+                            },
+                            {
+                                "containerPort": 57772,
+                                "protocol": "TCP"
+                            }
+                        ],
+                        "resources": {},
+                        "volumeMounts": [
+                            {
+                                "name": "default-token-z65vz",
+                                "readOnly": true,
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount"
+                            }
+                        ],
+                        "terminationMessagePath": "/dev/termination-log",
+                        "imagePullPolicy": "Always",
+                        "securityContext": {
+                            "capabilities": {
+                                "drop": [
+                                    "MKNOD",
+                                    "SYS_CHROOT"
+                                ]
+                            },
+                            "privileged": false,
+                            "seLinuxOptions": {
+                                "level": "s0:c9,c4"
+                            }
+                        }
+                    }
+                ],
+                "restartPolicy": "Always",
+                "terminationGracePeriodSeconds": 30,
+                "dnsPolicy": "ClusterFirst",
+                "serviceAccountName": "default",
+                "serviceAccount": "default",
+                "nodeName": "192.168.42.170",
+                "securityContext": {
+                    "seLinuxOptions": {
+                        "level": "s0:c9,c4"
+                    }
+                },
+                "imagePullSecrets": [
+                    {
+                        "name": "default-dockercfg-nzb38"
+                    }
+                ]
+            },
+            "status": {
+                "phase": "Pending"
+            }
+        },
+        {
+            "kind": "Pod",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "intersystemscachedocker-1-build",
+                "creationTimestamp": null,
+                "labels": {
+                    "openshift.io/build.name": "intersystemscachedocker-1"
+                },
+                "annotations": {
+                    "openshift.io/build.name": "intersystemscachedocker-1",
+                    "openshift.io/scc": "privileged"
+                }
+            },
+            "spec": {
+                "volumes": [
+                    {
+                        "name": "docker-socket",
+                        "hostPath": {
+                            "path": "/var/run/docker.sock"
+                        }
+                    },
+                    {
+                        "name": "builder-dockercfg-xzsnh-push",
+                        "secret": {
+                            "secretName": "builder-dockercfg-xzsnh",
+                            "defaultMode": 420
+                        }
+                    },
+                    {
+                        "name": "builder-token-4kkqp",
+                        "secret": {
+                            "secretName": "builder-token-4kkqp",
+                            "defaultMode": 420
+                        }
+                    }
+                ],
+                "containers": [
+                    {
+                        "name": "docker-build",
+                        "image": "openshift/origin-docker-builder:v1.5.1",
+                        "args": [
+                            "--loglevel=0"
+                        ],
+                        "env": [
+                            {
+                                "name": "BUILD",
+                                "value": "{\"kind\":\"Build\",\"apiVersion\":\"v1\",\"metadata\":{\"name\":\"intersystemscachedocker-1\",\"namespace\":\"consistem\",\"selfLink\":\"/oapi/v1/namespaces/consistem/builds/intersystemscachedocker-1\",\"uid\":\"80427297-e66c-11e7-9f71-ba76578662e3\",\"resourceVersion\":\"11815\",\"creationTimestamp\":\"2017-12-21T16:32:14Z\",\"labels\":{\"build\":\"intersystemscachedocker\",\"buildconfig\":\"intersystemscachedocker\",\"openshift.io/build-config.name\":\"intersystemscachedocker\",\"openshift.io/build.start-policy\":\"Serial\"},\"annotations\":{\"openshift.io/build-config.name\":\"intersystemscachedocker\",\"openshift.io/build.number\":\"1\"}},\"spec\":{\"serviceAccount\":\"builder\",\"source\":{\"type\":\"Git\",\"git\":{\"uri\":\"https://github.com/coelho-extremosistemas/IntersystemsCacheDocker\"}},\"strategy\":{\"type\":\"Docker\",\"dockerStrategy\":{\"from\":{\"kind\":\"DockerImage\",\"name\":\"tutum/centos@sha256:b4de18abfef698f6ae3a4921d6f58edef8fc770c6ee5da7636fa4ea51ab545c5\"}}},\"output\":{\"to\":{\"kind\":\"DockerImage\",\"name\":\"172.30.1.1:5000/consistem/intersystemscachedocker:latest\"},\"pushSecret\":{\"name\":\"builder-dockercfg-xzsnh\"}},\"resources\":{},\"postCommit\":{},\"nodeSelector\":null,\"triggeredBy\":[{\"message\":\"Image change\",\"imageChangeBuild\":{\"imageID\":\"tutum/centos@sha256:b4de18abfef698f6ae3a4921d6f58edef8fc770c6ee5da7636fa4ea51ab545c5\",\"fromRef\":{\"kind\":\"ImageStreamTag\",\"name\":\"centos:latest\"}}}]},\"status\":{\"phase\":\"New\",\"outputDockerImageReference\":\"172.30.1.1:5000/consistem/intersystemscachedocker:latest\",\"config\":{\"kind\":\"BuildConfig\",\"namespace\":\"consistem\",\"name\":\"intersystemscachedocker\"},\"output\":{}}}\n"
+                            },
+                            {
+                                "name": "SOURCE_REPOSITORY",
+                                "value": "https://github.com/coelho-extremosistemas/IntersystemsCacheDocker"
+                            },
+                            {
+                                "name": "SOURCE_URI",
+                                "value": "https://github.com/coelho-extremosistemas/IntersystemsCacheDocker"
+                            },
+                            {
+                                "name": "ORIGIN_VERSION",
+                                "value": "v1.5.1+7b451fc"
+                            },
+                            {
+                                "name": "PUSH_DOCKERCFG_PATH",
+                                "value": "/var/run/secrets/openshift.io/push"
+                            }
+                        ],
+                        "resources": {},
+                        "volumeMounts": [
+                            {
+                                "name": "docker-socket",
+                                "mountPath": "/var/run/docker.sock"
+                            },
+                            {
+                                "name": "builder-dockercfg-xzsnh-push",
+                                "readOnly": true,
+                                "mountPath": "/var/run/secrets/openshift.io/push"
+                            },
+                            {
+                                "name": "builder-token-4kkqp",
+                                "readOnly": true,
+                                "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount"
+                            }
+                        ],
+                        "terminationMessagePath": "/dev/termination-log",
+                        "imagePullPolicy": "IfNotPresent",
+                        "securityContext": {
+                            "privileged": true
+                        }
+                    }
+                ],
+                "restartPolicy": "Never",
+                "terminationGracePeriodSeconds": 30,
+                "dnsPolicy": "ClusterFirst",
+                "serviceAccountName": "builder",
+                "serviceAccount": "builder",
+                "nodeName": "192.168.42.170",
+                "securityContext": {},
+                "imagePullSecrets": [
+                    {
+                        "name": "builder-dockercfg-xzsnh"
+                    }
+                ]
+            },
+            "status": {
+                "phase": "Pending"
+            }
+        }
+    ]
+}

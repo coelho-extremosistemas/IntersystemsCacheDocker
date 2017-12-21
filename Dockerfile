@@ -26,8 +26,6 @@ ENV ISC_PACKAGE_UNICODE="Y"
 ENV ISC_PACKAGE_CSP_CONFIGURE="N"
 ENV ISC_PACKAGE_USER_PASSWORD="ccscache"
 ENV ISC_PACKAGE_INITIAL_SECURITY="Normal"
-ENV ISC_PACKAGE_MGRUSER="root"
-ENV ISC_PACKAGE_MGRGROUP="root"
 
 # Caché distribution file________________________________________________________________
 # set-up and install Caché from distrib_tmp dir
@@ -51,15 +49,10 @@ RUN yum -y update && \
     ./cache-*/cinstall_silent && \
     rm -rf ${TMP_INSTALL_DIR}/* && \
     ccontrol stop $ISC_PACKAGE_INSTANCENAME quietly 
-
+    
 #COPY cache.key $ISC_PACKAGE_INSTALLDIR/mgr/
 # Workaround for an overlayfs bug which prevents Cache from starting with <PROTECT> errors
 #COPY cache.cpf /InterSystems/cache/
-#COPY ccontrol-wrapper.sh /usr/bin/
-#RUN cd /usr/bin                     && \
-#    rm ccontrol                     && \
-#    mv ccontrol-wrapper.sh ccontrol && \
-#    chmod 555 ccontrol
 
 # TCP sockets that can be accessed if user wants to (see 'docker run -p' flag)
 EXPOSE 57772 1972 22
