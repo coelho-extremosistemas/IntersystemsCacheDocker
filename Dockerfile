@@ -54,7 +54,7 @@ RUN yum -y update && \
 
 #COPY cache.key $ISC_PACKAGE_INSTALLDIR/mgr/
 # Workaround for an overlayfs bug which prevents Cache from starting with <PROTECT> errors
-COPY cache.cpf /InterSystems/cache/
+#COPY cache.cpf /InterSystems/cache/
 COPY ccontrol-wrapper.sh /usr/bin/
 RUN cd /usr/bin                     && \
     rm ccontrol                     && \
