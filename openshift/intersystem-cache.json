@@ -2,7 +2,7 @@
     "kind": "Template",
     "apiVersion": "v1",
     "metadata": {
-        "name": "Intersystems Cache",
+        "name": "intersystems-cache",
         "creationTimestamp": null
     },
     "objects": [
